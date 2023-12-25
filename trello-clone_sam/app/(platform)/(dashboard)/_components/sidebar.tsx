@@ -27,31 +27,55 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     },
   });
 
-  const defaultAccordionValue: string[]=Object.keys(expanded).reduce((acc:string[],key:string)=>{
-    if(expanded[key]){
-    acc.push(key);
-  }
-  return acc;
-},[]
+  const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
+    (acc: string[], key: string) => {
+      if (expanded[key]) {
+        acc.push(key);
+      }
+      return acc;
+    },
+    []
   );
 
-  const onExpand = (id:string)=>{
-    setExpanded((curr)=>({
-        ...curr,
-        [id]:!expanded[id],
+  const onExpand = (id: string) => {
+    setExpanded((curr) => ({
+      ...curr,
+      [id]: !expanded[id],
     }));
   };
 
-  if(!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading){
+  if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
     return (
-    <>
-    <Skeleton/>
-    </>
+      <>
+        <Skeleton />
+      </>
     );
-
   }
-  
+  return (
+    <>
+      <div className="font-medium text-xs flex items-center mb-1">
+        <span className="pl-4">Workspaces</span>
+        <Button
+          asChild
+          type="button"
+          size="icon"
+          variant="ghost"
+          className="ml-auto"
+        >
+          <Link href="/select-org">
+            <Plus className="h-4 w-4" />
+          </Link>
+        </Button>
+      </div>
+      <Accordion
+      type="multiple"
+      defaultValue={defaultAccordionValue}
+      
+      >
 
+      </Accordion>
+    </>
+  );
 };
 
 export default Sidebar;
